@@ -1,88 +1,133 @@
-(function () {
-  'use strict';
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  // ── Language toggle ──────────────────────────────────────
+:root {
+  --bg:  #080808;
+  --t1:  #EBEBEB;
+  --t2:  #585858;
+  --t3:  #282828;
+  --o:   #F05A28;
+  --tr:  0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  --f:   'Inter', -apple-system, sans-serif;
+}
 
-  var htmlEl   = document.documentElement;
-  var langBtns = document.querySelectorAll('.lang-btn');
+body {
+  background: var(--bg);
+  color: var(--t1);
+  font-family: var(--f);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: radial-gradient(ellipse at 50% 46%, rgba(240,90,40,0.06) 0%, transparent 58%);
+}
 
-  function applyLang(lang) {
-    htmlEl.setAttribute('lang', lang);
-    htmlEl.setAttribute('data-lang', lang);
+.lang {
+  position: fixed;
+  top: 1.75rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  opacity: 0;
+  animation: f 0.4s 0.1s ease forwards;
+}
 
-    document.querySelectorAll('[data-en]').forEach(function (el) {
-      var text = el.getAttribute('data-' + lang);
-      if (text !== null) el.textContent = text;
-    });
+.lang span,
+.lang-btn {
+  font-family: var(--f);
+  font-size: 0.575rem;
+  letter-spacing: 0.1em;
+  color: var(--t3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color var(--tr);
+}
 
-    langBtns.forEach(function (btn) {
-      var isActive = btn.dataset.lang === lang;
-      btn.classList.toggle('active', isActive);
-      btn.setAttribute('aria-pressed', String(isActive));
-    });
-  }
+.lang-btn.active            { color: var(--t2); }
+.lang-btn:hover:not(.active){ color: var(--t2); }
 
-  langBtns.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      applyLang(btn.dataset.lang);
-    });
-  });
+main {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
 
-  applyLang('en');
+.name {
+  font-size: clamp(4.5rem, 13vw, 10rem);
+  font-weight: 200;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  color: var(--t1);
+  margin-bottom: 0.6em;
+  opacity: 0;
+  animation: u 0.7s 0.2s ease forwards;
+}
 
-  // ── Nav frosted glass on scroll ──────────────────────────
+.tagline {
+  font-size: clamp(1.125rem, 2.5vw, 1.75rem);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--t2);
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: u 0.7s 0.32s ease forwards;
+}
 
-  var navEl = document.getElementById('nav');
+.tagline em { font-style: normal; color: var(--o); }
 
-  function onNavScroll() {
-    navEl.classList.toggle('is-scrolled', window.scrollY > 55);
-  }
+.sub {
+  font-size: 0.8125rem;
+  color: var(--t2);
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: u 0.7s 0.42s ease forwards;
+}
 
-  window.addEventListener('scroll', onNavScroll, { passive: true });
-  onNavScroll();
+.actions {
+  display: flex;
+  gap: 0.625rem;
+  opacity: 0;
+  animation: u 0.7s 0.52s ease forwards;
+}
 
-  // ── Scroll reveal ────────────────────────────────────────
+.btn {
+  text-decoration: none;
+  font-family: var(--f);
+  font-size: 0.75rem;
+  color: var(--t2);
+  border: 1px solid var(--t3);
+  border-radius: 100px;
+  padding: 0.55rem 1.25rem;
+  transition: color var(--tr), border-color var(--tr), background var(--tr);
+}
 
-  var revealEls = document.querySelectorAll('[data-reveal]');
+.btn:hover       { color: var(--t1); border-color: #4a4a4a; background: rgba(255,255,255,0.04); }
+.btn.warm        { color: var(--o);  border-color: rgba(240,90,40,0.3); }
+.btn.warm:hover  { border-color: rgba(240,90,40,0.55); background: rgba(240,90,40,0.06); }
 
-  if (revealEls.length) {
-    if ('IntersectionObserver' in window) {
-      var revealObserver = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            var el    = entry.target;
-            var delay = parseInt(el.dataset.delay || '0', 10);
-            setTimeout(function () {
-              el.classList.add('is-revealed');
-            }, delay);
-            revealObserver.unobserve(el);
-          });
-        },
-        { threshold: 0.12 }
-      );
+.copy {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+  color: var(--t3);
+  opacity: 0;
+  animation: f 0.4s 0.7s ease forwards;
+}
 
-      revealEls.forEach(function (el) {
-        revealObserver.observe(el);
-      });
+@keyframes u { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+@keyframes f { from { opacity:0; } to { opacity:1; } }
 
-    } else {
-      revealEls.forEach(function (el) {
-        el.classList.add('is-revealed');
-      });
-    }
-  }
+:focus-visible { outline: 1px solid var(--o); outline-offset: 3px; border-radius: 3px; }
 
-  // ── Smooth scroll ────────────────────────────────────────
-
-  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-    anchor.addEventListener('click', function (e) {
-      var target = document.querySelector(anchor.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
-
-}());
+@media (max-width: 480px) {
+  .lang    { top: 1.25rem; right: 1.25rem; }
+  .actions { flex-direction: column; align-items: center; }
+  .btn     { min-width: 150px; text-align: center; }
+}
