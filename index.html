@@ -3,204 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Roberto Gil — AI, Automation & Control Systems Engineer. Building practical engineering solutions." />
-  <meta property="og:title" content="Roberto Gil" />
-  <meta property="og:description" content="Building practical engineering solutions through software, control systems and automation." />
-  <meta property="og:type" content="website" />
+  <meta name="description" content="Roberto Gil — AI & Automation Engineer" />
   <title>Roberto Gil</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
-    <span class="nav-name">Roberto Gil</span>
-    <div class="lang-toggle" id="langToggle" role="group" aria-label="Language selector">
-      <button class="lang-btn active" data-lang="en" aria-pressed="true">EN</button>
-      <span class="lang-sep" aria-hidden="true">/</span>
-      <button class="lang-btn" data-lang="es" aria-pressed="false">ES</button>
-    </div>
-  </nav>
+  <div class="lang" role="group" aria-label="Language">
+    <button class="lang-btn active" data-lang="en" aria-pressed="true">EN</button>
+    <span aria-hidden="true">/</span>
+    <button class="lang-btn" data-lang="es" aria-pressed="false">ES</button>
+  </div>
 
   <main>
-
-    <section class="hero" id="hero" aria-label="Introduction">
-
-      <div class="hero-bg" aria-hidden="true">
-        <div class="hero-glow"></div>
-      </div>
-
-      <div class="hero-content">
-
-        <p class="hero-eyebrow"
-           data-en="Engineering · Software · Automation"
-           data-es="Ingeniería · Software · Automatización">
-          Engineering · Software · Automation
-        </p>
-
-        <h1 class="hero-name">Roberto Gil</h1>
-
-        <h2 class="hero-headline">
-          <em class="hl-accent">AI</em><span class="hl-sep">,</span>&thinsp;Automation
-        </h2>
-
-        <p class="hero-sub"
-           data-en="Building practical engineering solutions through software, control systems and automation."
-           data-es="Construyendo soluciones de ingeniería prácticas a través de software, sistemas de control y automatización.">
-          Building practical engineering solutions through software,&nbsp;control systems and automation.
-        </p>
-
-        <div class="hero-actions">
-          <a href="#connect"
-             class="btn btn-primary"
-             data-en="Let's Connect"
-             data-es="Conectemos">
-            Let's Connect
-          </a>
-          <a href="https://github.com/YOUR_GITHUB_USERNAME"
-             target="_blank" rel="noopener noreferrer"
-             class="btn btn-outline">
-            GitHub
-          </a>
-        </div>
-
-      </div>
-
-      <div class="hero-scroll" aria-hidden="true">
-        <div class="scroll-track"></div>
-      </div>
-
-    </section>
-
-    <section class="narrative" id="about" aria-label="About">
-      <div class="container">
-        <div class="narrative-wrap" data-reveal>
-          <span class="section-tag" data-en="About" data-es="Sobre mí">About</span>
-          <p class="narrative-text"
-             data-en="Focused on creating functional, real-world systems with practical impact. I work at the intersection of software, control systems, and automation — building things that don't just demonstrate ideas, but actually solve problems."
-             data-es="Enfocado en crear sistemas funcionales del mundo real con impacto práctico. Trabajo en la intersección del software, los sistemas de control y la automatización — construyendo cosas que no solo demuestran ideas, sino que realmente resuelven problemas.">
-            Focused on creating functional, real-world systems with practical impact. I work at the intersection of software, control systems, and automation — building things that don't just demonstrate ideas, but actually solve&nbsp;problems.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section class="highlights" id="highlights" aria-label="Focus areas">
-      <div class="container">
-        <div class="hg-grid">
-
-          <article class="hg-card" data-reveal data-delay="0">
-            <span class="hg-num" aria-hidden="true">01</span>
-            <h3 class="hg-title"
-                data-en="Software & Control"
-                data-es="Software y Control">
-              Software & Control
-            </h3>
-            <p class="hg-text"
-               data-en="Engineering systems that bridge the gap between digital logic and physical processes. Precision by design."
-               data-es="Sistemas de ingeniería que unen la lógica digital con los procesos físicos. Precisión por diseño.">
-              Engineering systems that bridge the gap between digital logic and physical processes. Precision by design.
-            </p>
-          </article>
-
-          <article class="hg-card" data-reveal data-delay="130">
-            <span class="hg-num" aria-hidden="true">02</span>
-            <h3 class="hg-title"
-                data-en="AI Integration"
-                data-es="Integración de IA">
-              AI Integration
-            </h3>
-            <p class="hg-text"
-               data-en="Applying intelligence where it creates real value — not as a trend, but as a practical engineering tool."
-               data-es="Aplicando inteligencia donde genera valor real — no como tendencia, sino como herramienta de ingeniería práctica.">
-              Applying intelligence where it creates real value — not as a trend, but as a practical engineering&nbsp;tool.
-            </p>
-          </article>
-
-          <article class="hg-card" data-reveal data-delay="260">
-            <span class="hg-num" aria-hidden="true">03</span>
-            <h3 class="hg-title"
-                data-en="Automation"
-                data-es="Automatización">
-              Automation
-            </h3>
-            <p class="hg-text"
-               data-en="Building automated workflows and systems that reduce friction, increase reliability, and deliver consistent results."
-               data-es="Construyendo flujos y sistemas automatizados que reducen la fricción, aumentan la confiabilidad y entregan resultados consistentes.">
-              Building automated workflows and systems that reduce friction, increase reliability, and deliver consistent&nbsp;results.
-            </p>
-          </article>
-
-        </div>
-      </div>
-    </section>
-
-    <section class="cta-section" id="connect" aria-label="Contact">
-      <div class="container">
-        <div class="cta-inner" data-reveal>
-
-          <span class="cta-tag"
-                data-en="Open to opportunities"
-                data-es="Abierto a oportunidades">
-            Open to opportunities
-          </span>
-
-          <h2 class="cta-title"
-              data-en="Let's build something worth building."
-              data-es="Construyamos algo que valga la pena construir.">
-            Let's build something worth building.
-          </h2>
-
-          <p class="cta-body"
-             data-en="Whether you're a recruiter, a collaborator, or just someone with a good idea — I'm always open to meaningful conversations."
-             data-es="Ya seas reclutador, colaborador, o simplemente alguien con una buena idea — siempre estoy abierto a conversaciones significativas.">
-            Whether you're a recruiter, a collaborator, or just someone with a good idea — I'm always open to meaningful conversations.
-          </p>
-
-          <div class="cta-actions">
-            <a href="https://wa.me/YOUR_PHONE_NUMBER"
-               target="_blank" rel="noopener noreferrer"
-               class="btn btn-primary btn-lg"
-               data-en="Message on WhatsApp"
-               data-es="Escribir por WhatsApp">
-              Message on WhatsApp
-            </a>
-            <a href="https://linkedin.com/in/YOUR_LINKEDIN_USERNAME"
-               target="_blank" rel="noopener noreferrer"
-               class="btn btn-outline"
-               data-en="LinkedIn"
-               data-es="LinkedIn">
-              LinkedIn
-            </a>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
+    <h1 class="name">Roberto Gil</h1>
+    <p class="tagline"><em>AI</em>, Automation</p>
+    <p class="sub"
+       data-en="Building practical systems with real-world impact."
+       data-es="Construyendo sistemas prácticos con impacto real.">
+      Building practical systems with real-world impact.
+    </p>
+    <nav class="actions" aria-label="Links">
+      <a href="https://wa.me/526623866834"                         target="_blank" rel="noopener noreferrer" class="btn warm">WhatsApp</a>
+      <a href="https://linkedin.com/in/YOUR_LINKEDIN_USERNAME"     target="_blank" rel="noopener noreferrer" class="btn">LinkedIn</a>
+      <a href="https://github.com/YOUR_GITHUB_USERNAME"            target="_blank" rel="noopener noreferrer" class="btn">GitHub</a>
+    </nav>
   </main>
 
-  <footer class="footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-inner">
-        <span class="footer-mark">Roberto Gil</span>
-        <nav class="footer-links" aria-label="Social links">
-          <a href="https://github.com/YOUR_GITHUB_USERNAME"
-             target="_blank" rel="noopener noreferrer"
-             class="footer-link">GitHub</a>
-          <a href="https://linkedin.com/in/YOUR_LINKEDIN_USERNAME"
-             target="_blank" rel="noopener noreferrer"
-             class="footer-link">LinkedIn</a>
-          <a href="https://wa.me/YOUR_PHONE_NUMBER"
-             target="_blank" rel="noopener noreferrer"
-             class="footer-link">WhatsApp</a>
-        </nav>
-        <span class="footer-year">&copy; 2026</span>
-      </div>
-    </div>
-  </footer>
+  <span class="copy">&copy; 2026</span>
 
   <script src="script.js"></script>
 </body>
