@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roberto Gil — Presentación</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       BASE RESET
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #04040e;
+      --gold:       #c9a84c;
+      --gold-light: #e2c97e;
+      --gold-dim:   rgba(201,168,76,0.15);
+      --white:      #f0efea;
+      --gray:       #808090;
+      --gray-dim:   rgba(255,255,255,0.07);
+      --border:     rgba(255,255,255,0.07);
+      --border-gold:rgba(201,168,76,0.25);
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* ============================================================
+       DECK CONTAINER
+    ============================================================ */
+    #deck {
+      width: 100vw; height: 100vh;
+      position: relative; overflow: hidden;
+    }
+
+    /* ============================================================
+       SLIDES
+    ============================================================ */
+    .slide {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 10%;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.55s ease;
+    }
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Animated elements — start hidden */
+    .a {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .slide.active .a {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       SHARED TYPOGRAPHY
+    ============================================================ */
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+    .slide-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+    .gold { color: var(--gold); }
+    .gold-line {
+      width: 48px; height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    /* ============================================================
+       CORNER DECORATIONS (persistent)
+    ============================================================ */
+    .corner {
+      position: fixed;
+      width: 36px; height: 36px;
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 50;
+    }
+    .corner-tl { top: 28px; left: 28px; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+    .corner-br { bottom: 72px; right: 28px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    #nav {
+      position: fixed;
+      bottom: 36px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; align-items: center; gap: 18px;
+      z-index: 100;
+    }
+    .nav-btn {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--border-gold);
+      background: rgba(0,0,0,0.6);
+      color: var(--gold);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+      backdrop-filter: blur(12px);
+    }
+    .nav-btn:hover { background: var(--gold-dim); border-color: var(--gold); }
+    .nav-btn svg { width: 16px; height: 16px; }
+    .slide-counter {
+      font-size: 12px; letter-spacing: 0.1em;
+      color: var(--gray); min-width: 56px; text-align: center;
+    }
+
+    /* Dot indicators (right side) */
+    #dots {
+      position: fixed;
+      right: 32px; top: 50%;
+      transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 10px;
+      z-index: 100;
+    }
+    .dot {
+      width: 4px; height: 4px; border-radius: 2px;
+      background: rgba(201,168,76,0.25);
+      transition: height 0.3s ease, background 0.3s ease;
+      cursor: pointer;
+    }
+    .dot.active { height: 22px; background: var(--gold); }
+
+    /* Keyboard hint */
+    #hint {
+      position: fixed; bottom: 44px; right: 52px;
+      font-size: 11px; color: rgba(255,255,255,0.13);
+      letter-spacing: 0.05em; z-index: 100;
+    }
+
+    /* ============================================================
+       SLIDE 1 — PORTADA
+    ============================================================ */
+    #s1 {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding-left: 13%;
+      gap: 0;
+    }
+    /* Radial glow */
+    #s1::after {
+      content: '';
+      position: absolute;
+      top: -15%; right: -8%;
+      width: 640px; height: 640px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,0.055) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    /* Subtle grid */
+    #s1 .grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.025) 1px, transparent 1px);
+      background-size: 64px 64px;
+      pointer-events: none;
+    }
+    #s1 .eyebrow  { margin-bottom: 0; }
+    #s1 .gold-line { margin: 18px 0 22px; }
+    #s1 .display {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+    }
+    #s1 .subtitle {
+      margin-top: 10px;
+      font-size: 1rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 300;
+      color: var(--gray);
+    }
+    #s1 .tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 1.6vw, 1.35rem);
+      color: var(--gray);
+      line-height: 1.75;
+      border-left: 2px solid var(--gold);
+      padding-left: 22px;
+      margin-top: 36px;
+      max-width: 560px;
+    }
+
+    /* ============================================================
+       SLIDE 2 — EL PROBLEMA
+    ============================================================ */
+    #s2 {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 32px;
+    }
+    .s2-body { max-width: 700px; }
+    .s2-list {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 14px;
+      margin-top: 18px;
+    }
+    .s2-list li {
+      font-size: 1rem;
+      color: var(--gray);
+      line-height: 1.7;
+      padding-left: 18px;
+      position: relative;
+    }
+    .s2-list li::before {
+      content: '—';
+      position: absolute; left: 0;
+      color: rgba(201,168,76,0.5);
+    }
+    .pullquote {
+      border-left: 2px solid var(--gold);
+      padding-left: 22px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+      color: rgba(240,239,234,0.55);
+      line-height: 1.65;
+      max-width: 620px;
+    }
+
+    /* ============================================================
+       SLIDE 3 — LA SOLUCIÓN
+    ============================================================ */
+    #s3 {
+      flex-direction: column;
+      gap: 36px;
+    }
+    .pillars {
+      display: flex; flex-direction: column; gap: 28px;
+      width: 100%; max-width: 780px;
+    }
+    .pillar {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .pillar-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: rgba(201,168,76,0.3);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .pillar h4 {
+      font-size: 15px; font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .pillar p {
+      font-size: 13.5px; color: var(--gray); line-height: 1.6;
+    }
+
+    /* ============================================================
+       SLIDE 4 — INFRAESTRUCTURA
+    ============================================================ */
+    #s4 {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 32px;
+    }
+    .infra-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      width: 100%;
+    }
+    .infra-item {
+      background: var(--gray-dim);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 22px;
+      transition: border-color 0.3s;
+    }
+    .infra-item:hover { border-color: var(--border-gold); }
+    .infra-item:last-child {
+      grid-column: 1 / -1;
+      max-width: 50%;
+    }
+    .infra-item h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .infra-item p {
+      font-size: 13px; color: var(--gray); line-height: 1.6;
+    }
+
+    /* ============================================================
+       SLIDE 5 — HERRAMIENTAS
+    ============================================================ */
+    #s5 { flex-direction: column; gap: 32px; }
+    .tools-list {
+      display: flex; flex-direction: column; gap: 20px;
+      width: 100%; max-width: 700px;
+    }
+    .tool-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 18px;
+      align-items: start;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tool-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .tool-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+    .tool-row p {
+      font-size: 13.5px; color: var(--gray); line-height: 1.6;
+    }
+
+    /* ============================================================
+       SLIDE 6 — POR QUÉ ESTE SISTEMA
+    ============================================================ */
+    #s6 { flex-direction: column; gap: 32px; }
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 18px;
+      width: 100%;
+      align-items: start;
+    }
+    .cmp-side {
+      border-radius: 16px;
+      padding: 32px 28px;
+    }
+    .cmp-side.left  { background: var(--gray-dim); border: 1px solid var(--border); }
+    .cmp-side.right { background: rgba(201,168,76,0.05); border: 1px solid var(--border-gold); }
+    .cmp-label { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 14px; }
+    .cmp-side.left .cmp-label  { color: var(--gray); }
+    .cmp-side.right .cmp-label { color: var(--gold); }
+    .cmp-side ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .cmp-side li {
+      font-size: 13px; line-height: 1.5;
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .cmp-side.left  li { color: var(--gray); }
+    .cmp-side.right li { color: var(--white); }
+    .cmp-side.left  li::before { content: '—'; color: rgba(255,255,255,0.2); flex-shrink: 0; }
+    .cmp-side.right li::before { content: '✦'; color: var(--gold); font-size: 9px; margin-top: 4px; flex-shrink: 0; }
+    .vs-sep {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.4rem;
+      color: rgba(201,168,76,0.35);
+      align-self: center;
+    }
+
+    /* ============================================================
+       SLIDE 7 — PRUEBA DE CAPACIDAD
+    ============================================================ */
+    #s7 { flex-direction: column; align-items: flex-start; gap: 32px; }
+    .proof-body {
+      font-size: 1rem;
+      color: var(--gray);
+      line-height: 1.8;
+      max-width: 680px;
+    }
+    .proof-list {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 12px;
+      max-width: 680px;
+    }
+    .proof-list li {
+      font-size: 14px;
+      color: var(--white);
+      line-height: 1.6;
+      padding-left: 18px;
+      position: relative;
+    }
+    .proof-list li::before {
+      content: '—';
+      position: absolute; left: 0;
+      color: var(--gold);
+    }
+
+    /* ============================================================
+       SLIDE 8 — MANTENIMIENTO
+    ============================================================ */
+    #s8 { flex-direction: column; gap: 32px; }
+    .maint-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      width: 100%;
+    }
+    .maint-card {
+      background: var(--gray-dim);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 26px 22px;
+      transition: border-color 0.3s;
+    }
+    .maint-card:hover { border-color: var(--border-gold); }
+    .maint-card h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .maint-card p {
+      font-size: 13px; color: var(--gray); line-height: 1.6;
+    }
+    .maint-note {
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+      line-height: 1.6;
+      max-width: 620px;
+    }
+
+    /* ============================================================
+       SLIDE 9 — INVERSIÓN
+    ============================================================ */
+    #s9 { flex-direction: column; align-items: flex-start; gap: 32px; }
+    .pricing-table {
+      width: 100%; max-width: 720px;
+    }
+    .pricing-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      align-items: center;
+    }
+    .pricing-row:first-child {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border-bottom: 1px solid var(--border-gold);
+      padding-bottom: 12px;
+    }
+    .pricing-row:last-child { border-bottom: none; }
+    .pricing-row .range { color: var(--white); font-weight: 500; }
+    .pricing-row .price { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+    .pricing-row .monthly { color: var(--gray); }
+    .pricing-notes {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .pricing-notes li {
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.35);
+      line-height: 1.6;
+      padding-left: 16px;
+      position: relative;
+    }
+    .pricing-notes li::before {
+      content: '—';
+      position: absolute; left: 0;
+      color: rgba(201,168,76,0.4);
+    }
+
+    /* ============================================================
+       SLIDE 10 — CIERRE
+    ============================================================ */
+    #s10 { flex-direction: column; align-items: flex-start; gap: 32px; }
+    .closing-body {
+      font-size: 1rem;
+      color: var(--gray);
+      line-height: 1.8;
+      max-width: 600px;
+    }
+    .contact-row {
+      display: flex; gap: 32px; align-items: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      width: 100%;
+    }
+    .c-item { display: flex; align-items: center; gap: 12px; font-size: 13.5px; color: var(--gray); }
+    .c-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      border: 1px solid var(--border-gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; flex-shrink: 0;
+    }
+    .c-item a { color: var(--gold-light); text-decoration: none; }
+    .c-item a:hover { color: var(--gold); }
+    .closing-final {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 2vw, 1.6rem);
+      color: var(--gold);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+<div id="deck">
+
+  <!-- Persistent corner marks -->
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-br"></div>
+
+  <!-- ============================================================
+       SLIDE 1 — PORTADA
+  ============================================================ -->
+  <section class="slide active" id="s1">
+    <div class="grid-bg"></div>
+    <span class="eyebrow a">Presentación de servicios</span>
+    <div class="gold-line a"></div>
+    <h1 class="display a">Roberto <span class="gold">Gil</span></h1>
+    <p class="subtitle a">Desarrollador Web · Integración de Inteligencia Artificial</p>
+    <div class="tagline a">
+      "No solo uso la IA.<br>
+      La integro para construir sistemas<br>que trabajan solos."
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 2 — EL PROBLEMA
+  ============================================================ -->
+  <section class="slide" id="s2">
+    <div class="a">
+      <p class="eyebrow">El problema</p>
+      <h2 class="slide-title">La mayoría de los municipios de Sonora<br><span class="gold">no existen en internet.</span></h2>
+    </div>
+    <div class="s2-body a">
+      <ul class="s2-list">
+        <li>Sin sitio web oficial, el ciudadano no encuentra información</li>
+        <li>Sin correo institucional, la comunicación es informal e insegura</li>
+        <li>Sin presencia digital, el municipio pierde credibilidad y accesibilidad</li>
+      </ul>
+    </div>
+    <div class="pullquote a">
+      "Un municipio que no existe en internet,<br>no existe para sus ciudadanos."
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 3 — LA SOLUCIÓN
+  ============================================================ -->
+  <section class="slide" id="s3">
+    <div class="a">
+      <p class="eyebrow">Lo que construimos</p>
+      <h2 class="slide-title">Presencia digital oficial, completa<br>y <span class="gold">a su nombre.</span></h2>
+    </div>
+    <div class="pillars a">
+      <div class="pillar">
+        <div class="pillar-num">01</div>
+        <div>
+          <h4>Sitio web institucional profesional</h4>
+          <p>Diseño premium, optimizado para móvil, con dominio propio y certificado SSL incluido.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">02</div>
+        <div>
+          <h4>Correo electrónico institucional</h4>
+          <p>contacto@sumunicipiosoyopa.com desde el primer día. Imagen oficial desde el primer mensaje.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">03</div>
+        <div>
+          <h4>Integración de inteligencia artificial</h4>
+          <p>Automatización de procesos, asistentes y flujos inteligentes adaptados a la operación del municipio.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 4 — CÓMO FUNCIONA TÉCNICAMENTE
+  ============================================================ -->
+  <section class="slide" id="s4">
+    <div class="a">
+      <p class="eyebrow">La infraestructura</p>
+      <h2 class="slide-title">Un sistema profesional.<br><span class="gold">Sin servidores. Sin complicaciones.</span></h2>
+    </div>
+    <div class="infra-grid a">
+      <div class="infra-item">
+        <h4>GitHub</h4>
+        <p>El código del sitio se guarda y versiona aquí. Todo el historial de cambios queda registrado. El repositorio es propiedad del municipio.</p>
+      </div>
+      <div class="infra-item">
+        <h4>GitHub Pages</h4>
+        <p>Publica el sitio al mundo automáticamente. Sin servidor propio. Sin mensualidad de hosting. Infraestructura de Microsoft — disponible 24/7.</p>
+      </div>
+      <div class="infra-item">
+        <h4>Hostinger</h4>
+        <p>Administración del dominio .com mientras llega el .gob.mx oficial. Correo institucional incluido.</p>
+      </div>
+      <div class="infra-item">
+        <h4>Cloudflare</h4>
+        <p>Seguridad, protección contra ataques, velocidad global y gestión de DNS. Activado desde el arranque.</p>
+      </div>
+      <div class="infra-item">
+        <h4>Google Analytics</h4>
+        <p>Monitoreo de visitas en tiempo real. Reporte mensual entregado al municipio.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 5 — HERRAMIENTAS
+  ============================================================ -->
+  <section class="slide" id="s5">
+    <div class="a">
+      <p class="eyebrow">Con qué trabajo</p>
+      <h2 class="slide-title">Herramientas de última generación.<br><span class="gold">Resultados superiores.</span></h2>
+    </div>
+    <div class="tools-list a">
+      <div class="tool-row">
+        <div class="tool-name">VS Code</div>
+        <p>Editor de desarrollo profesional donde se construye cada sitio con precisión y control total del código.</p>
+      </div>
+      <div class="tool-row">
+        <div class="tool-name">Claude</div>
+        <p>Inteligencia artificial de Anthropic. Genera, analiza y optimiza el código y el contenido de cada proyecto.</p>
+      </div>
+      <div class="tool-row">
+        <div class="tool-name">Claude Code</div>
+        <p>Extensión de IA directamente en el editor. Detecta errores, sugiere mejoras y acelera cada ajuste que el cliente solicite.</p>
+      </div>
+    </div>
+    <div class="pullquote a">
+      "Lo que antes tomaba semanas, hoy se entrega<br>en una fracción del tiempo — con mayor calidad."
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 6 — POR QUÉ ESTE SISTEMA
+  ============================================================ -->
+  <section class="slide" id="s6">
+    <div class="a">
+      <p class="eyebrow">Por qué este sistema</p>
+      <h2 class="slide-title">Mejor que un desarrollo tradicional<br><span class="gold">en todo sentido.</span></h2>
+    </div>
+    <div class="comparison a">
+      <div class="cmp-side left">
+        <p class="cmp-label">Desarrollo tradicional</p>
+        <ul>
+          <li>Semanas de espera</li>
+          <li>Hosting mensual costoso</li>
+          <li>Cambios lentos y caros</li>
+          <li>Código en manos del proveedor</li>
+          <li>Sin respaldo ni historial</li>
+          <li>Sin métricas</li>
+        </ul>
+      </div>
+      <div class="vs-sep">vs</div>
+      <div class="cmp-side right">
+        <p class="cmp-label">Este sistema</p>
+        <ul>
+          <li>Entrega en días</li>
+          <li>Hosting gratuito</li>
+          <li>Ajustes en tiempo real</li>
+          <li>Código propiedad del municipio</li>
+          <li>Todo versionado en GitHub</li>
+          <li>Analytics con reporte mensual</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pullquote a">
+      "La infraestructura queda a nombre del municipio.<br>Si el día de mañana cambian de proveedor,<br>se llevan todo. Sin rescates. Sin dependencias."
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 7 — PRUEBA DE CAPACIDAD
+  ============================================================ -->
+  <section class="slide" id="s7">
+    <div class="a">
+      <p class="eyebrow">Prueba de capacidad</p>
+      <h2 class="slide-title">Esta presentación es <span class="gold">el ejemplo.</span></h2>
+    </div>
+    <div class="a">
+      <p class="proof-body">Lo que está viendo ahora mismo fue construido con exactamente las mismas herramientas y sistemas que usaríamos para el sitio web de su municipio.</p>
+    </div>
+    <ul class="proof-list a">
+      <li>Desarrollado en VS Code con inteligencia artificial</li>
+      <li>Publicado sin servidor ni hosting pagado</li>
+      <li>Entregado en menos tiempo que un desarrollo tradicional</li>
+      <li>Cualquier cambio o ajuste que usted pida se visualiza y aplica en tiempo real, sin esperas ni procesos largos</li>
+    </ul>
+    <div class="pullquote a">
+      "Si esto es lo que hacemos para presentarnos,<br>imagine lo que construimos para usted."
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 8 — MANTENIMIENTO MENSUAL
+  ============================================================ -->
+  <section class="slide" id="s8">
+    <div class="a">
+      <p class="eyebrow">Mantenimiento mensual</p>
+      <h2 class="slide-title">Cada mes, su municipio<br><span class="gold">siempre al día.</span></h2>
+    </div>
+    <div class="maint-grid a">
+      <div class="maint-card">
+        <h4>Actualización de contenido</h4>
+        <p>Horarios, funcionarios, avisos, convocatorias, documentos oficiales, noticias y eventos del municipio.</p>
+      </div>
+      <div class="maint-card">
+        <h4>Seguridad y funcionamiento</h4>
+        <p>SSL activo, dominio vigente, formularios funcionando, protección Cloudflare permanente y respaldo mensual del código.</p>
+      </div>
+      <div class="maint-card">
+        <h4>Reporte de Analytics</h4>
+        <p>Visitas totales, páginas más vistas, dispositivos, ciudades y comportamiento del ciudadano — entregado cada mes.</p>
+      </div>
+      <div class="maint-card">
+        <h4>Soporte técnico directo</h4>
+        <p>Atención por WhatsApp. Correcciones urgentes resueltas en menos de 24 horas. Sin tickets. Sin esperas.</p>
+      </div>
+    </div>
+    <p class="maint-note a">Cambios mayores como rediseño completo o nuevos módulos se cotizan por separado.</p>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 9 — INVERSIÓN
+  ============================================================ -->
+  <section class="slide" id="s9">
+    <div class="a">
+      <p class="eyebrow">Su inversión</p>
+      <h2 class="slide-title">Transparente. Sin sorpresas.<br><span class="gold">A su ritmo.</span></h2>
+    </div>
+    <div class="pricing-table a">
+      <div class="pricing-row">
+        <span>Municipios</span>
+        <span>Inicial</span>
+        <span>Mensual</span>
+      </div>
+      <div class="pricing-row">
+        <span class="range">1 – 2 municipios</span>
+        <span class="price">$20,000 c/u</span>
+        <span class="monthly">$3,500 /mes c/u</span>
+      </div>
+      <div class="pricing-row">
+        <span class="range">3 – 5 municipios</span>
+        <span class="price">$15,000 c/u</span>
+        <span class="monthly">$3,500 /mes c/u</span>
+      </div>
+      <div class="pricing-row">
+        <span class="range">6 – 10 municipios</span>
+        <span class="price">$12,000 c/u</span>
+        <span class="monthly">$3,500 /mes c/u</span>
+      </div>
+      <div class="pricing-row">
+        <span class="range">10+ municipios</span>
+        <span class="price">A negociar</span>
+        <span class="monthly">$3,500 /mes c/u</span>
+      </div>
+    </div>
+    <ul class="pricing-notes a">
+      <li>El dominio arranca con .com desde Hostinger. El .gob.mx se tramita en paralelo ante la UGD — es gratuito.</li>
+      <li>Permanencia mínima de 3 meses a partir del primer pago mensual.</li>
+      <li>Cada municipio paga de forma independiente según el rango activo.</li>
+    </ul>
+  </section>
+
+  <!-- ============================================================
+       SLIDE 10 — CIERRE
+  ============================================================ -->
+  <section class="slide" id="s10">
+    <div class="a">
+      <p class="eyebrow">El siguiente paso</p>
+      <h2 class="slide-title">Hoy podemos definir<br><span class="gold">el inicio.</span></h2>
+    </div>
+    <div class="a">
+      <p class="closing-body">No necesita decidir todo ahora. Solo necesita dar el primer paso: una conversación donde entendemos la situación de su municipio y acordamos un plan claro antes de comenzar.</p>
+    </div>
+    <div class="contact-row a">
+      <div class="c-item">
+        <div class="c-icon">WA</div>
+        <span style="color:var(--white);">WhatsApp — contacto directo — México</span>
+      </div>
+      <div class="c-item">
+        <div class="c-icon">&lt;/&gt;</div>
+        <span><a href="https://github.com/r0b3rt0g1l" target="_blank">github.com/r0b3rt0g1l</a></span>
+      </div>
+      <div class="c-item">
+        <div class="c-icon">in</div>
+        <span><a href="https://linkedin.com/in/r0bert0glhernández" target="_blank">linkedin.com/in/r0bert0glhernández</a></span>
+      </div>
+    </div>
+    <div class="a">
+      <p class="closing-final">"Construyamos algo que trabaje solo."</p>
+    </div>
+  </section>
+
+</div><!-- /#deck -->
+
+<!-- Navigation bar -->
+<nav id="nav">
+  <button class="nav-btn" id="btn-prev" aria-label="Anterior">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="15,18 9,12 15,6"></polyline>
+    </svg>
+  </button>
+  <span class="slide-counter" id="counter">01 / 10</span>
+  <button class="nav-btn" id="btn-next" aria-label="Siguiente">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="9,6 15,12 9,18"></polyline>
+    </svg>
+  </button>
+</nav>
+
+<!-- Side dot indicators -->
+<div id="dots">
+  <div class="dot active" data-i="0"></div>
+  <div class="dot" data-i="1"></div>
+  <div class="dot" data-i="2"></div>
+  <div class="dot" data-i="3"></div>
+  <div class="dot" data-i="4"></div>
+  <div class="dot" data-i="5"></div>
+  <div class="dot" data-i="6"></div>
+  <div class="dot" data-i="7"></div>
+  <div class="dot" data-i="8"></div>
+  <div class="dot" data-i="9"></div>
+</div>
+
+<div id="hint">← → para navegar</div>
+
+<script>
+  /* ============================================================
+     SLIDESHOW ENGINE
+  ============================================================ */
+  const slides  = Array.from(document.querySelectorAll('.slide'));
+  const dots    = Array.from(document.querySelectorAll('.dot'));
+  const counter = document.getElementById('counter');
+  const TOTAL   = slides.length;
+  let current   = 0;
+  let busy      = false;
+
+  /* Apply staggered transition-delay to every .a element in each slide */
+  slides.forEach(slide => {
+    slide.querySelectorAll('.a').forEach((el, i) => {
+      el.dataset.delay = (0.1 + i * 0.18).toFixed(2);
+    });
+  });
+
+  /* Instantly reset all .a elements (no transition) */
+  function resetAnims(slide) {
+    slide.querySelectorAll('.a').forEach(el => {
+      el.style.transition      = 'none';
+      el.style.transitionDelay = '0s';
+      el.style.opacity         = '0';
+      el.style.transform       = 'translateY(22px)';
+    });
+  }
+
+  /* Re-enable transitions and let CSS handle the animation */
+  function enableAnims(slide) {
+    slide.querySelectorAll('.a').forEach(el => {
+      el.style.transition      = '';
+      el.style.transitionDelay = el.dataset.delay + 's';
+      el.style.opacity         = '';
+      el.style.transform       = '';
+    });
+  }
+
+  /* Navigate to a specific slide index */
+  function goTo(idx) {
+    if (busy || idx === current || idx < 0 || idx >= TOTAL) return;
+    busy = true;
+
+    /* 1. Deactivate current */
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+
+    /* 2. Reset next slide's elements instantly */
+    const next = slides[idx];
+    resetAnims(next);
+
+    /* 3. Force reflow so the reset takes effect before transition restores */
+    void next.offsetHeight;
+
+    /* 4. Re-enable transitions, activate slide */
+    enableAnims(next);
+    next.classList.add('active');
+    dots[idx].classList.add('active');
+    current = idx;
+    counter.textContent =
+      String(current + 1).padStart(2, '0') + ' / ' + String(TOTAL).padStart(2, '0');
+
+    /* 5. Unlock after the slowest animation settles */
+    setTimeout(() => { busy = false; }, 800);
+  }
+
+  /* Init: arm the first slide's delays without resetting (it's already visible) */
+  enableAnims(slides[0]);
+
+  /* Controls */
+  document.getElementById('btn-next').addEventListener('click', () => goTo(current + 1));
+  document.getElementById('btn-prev').addEventListener('click', () => goTo(current - 1));
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => goTo(parseInt(dot.dataset.i)));
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(current - 1);
+  });
+</script>
+
+</body>
+</html>
